@@ -1,18 +1,18 @@
-# vault_pricing.py
+**#vault_pricing.py**
 
-Script Python qui se connecte à un cluster HashiCorp Vault, parcourt automatiquement tous les mounts et remonte dans le terminal un résumé des métriques nécessaires au pricing.
+Python script that connects to a HashiCorp Vault cluster, automatically walks through all mounts, and prints a summary of the metrics needed for pricing to the terminal.
 
-## Métriques collectées
+## Métrics collected
 
-| Catégorie | Détail |
+| Category | Detail |
 |---|---|
-| **Secrets statiques (KV)** | Nombre de secrets uniques dans les mounts KV v1 et v2 |
-| **Secrets dynamiques** | Nombre de rôles configurés (AppRole, Kubernetes, LDAP, AWS, Database...) |
-| **PKI** | RU = nombre de certificats actifs × (TTL restant en heures ÷ 730) |
-| **SSH** | RU = Σ (TTL du rôle en heures ÷ 730) |
-| **Transit / Transform / KMSE** | Nombre de clés configurées |
+| **Static secrets (KV)** | Number of unique secrets in KV v1 and v2 mounts |
+| **Dynamic secrets** | Number of configured roles (AppRole, Kubernetes, LDAP, AWS, Database...) |
+| **PKI** | RU = number of active certificates × (remaining TTL in hours ÷ 730) |
+| **SSH** | RU = Σ (TTL of the role in hours ÷ 730) |
+| **Transit / Transform / KMSE** | Number of configured keys |
 
-## Prérequis
+## Prerequisite
 
 ```bash
 pip3 install requests cryptography
@@ -25,14 +25,14 @@ pip3 install requests cryptography
 ```bash
 export VAULT_ADDR=https://<adresse-de-votre-vault>
 export VAULT_TOKEN=<votre-token>
-export VAULT_NAMESPACE=<namespace>   # optionnel, Enterprise/HCP uniquement
+export VAULT_NAMESPACE=<namespace>   # optional, only Enterprise/HCP 
 
 python3 vault_pricing.py
 ```
 
-## Permissions requises
+## Permissions needed
 
-Le token Vault utilisé doit avoir les droits suivants :
+The Vault token used need to have the following rights :
 
 ```hcl
 path "sys/mounts"   { capabilities = ["read"] }
